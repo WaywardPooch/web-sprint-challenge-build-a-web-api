@@ -13,7 +13,7 @@ const validateProjectId = async (req, res, next) => {
     next(err);
   }
 };
-const validateProject = async (req, res, next) => {
+const validateNewProject = async (req, res, next) => {
   try {
     const { name, description } = req.body;
     if (name && description) {
@@ -28,5 +28,25 @@ const validateProject = async (req, res, next) => {
     next(err);
   }
 };
+const validateUpdatedProject = async (req, res, next) => {
+  try {
+    const { name, description, completed } = req.body;
+    if (name && description && completed !== undefined) {
+      next();
+    } else {
+      next({
+        status: 400,
+        message:
+          "Project updates require a name, description, and completed status",
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
 
-module.exports = { validateProjectId, validateProject };
+module.exports = {
+  validateProjectId,
+  validateNewProject,
+  validateUpdatedProject,
+};

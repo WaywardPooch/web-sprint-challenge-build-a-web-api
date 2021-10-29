@@ -1,7 +1,11 @@
 // Imports
 const express = require("express");
 const Project = require("./projects-model");
-const { validateProjectId, validateProject } = require("./projects-middleware");
+const {
+  validateProjectId,
+  validateNewProject,
+  validateUpdatedProject,
+} = require("./projects-middleware");
 const { handleError } = require("./../general-middleware");
 
 // Router Declaration
@@ -25,19 +29,38 @@ router.get("/:id", validateProjectId, async (req, res, next) => {
     next(err);
   }
 });
-router.post("/", validateProject, async (req, res, next) => {
+router.post("/", validateNewProject, async (req, res, next) => {
   try {
-    const { name, description, completed } = req.body;
+    const { name, description, completed = false } = req.body;
     const newProject = await Project.insert({
       name,
       description,
-      completed: completed ? completed : false,
+      completed,
     });
     res.status(201).json(newProject);
   } catch (err) {
     next(err);
   }
 });
+router.put(
+  "/:id",
+  validateProjectId,
+  validateUpdatedProject,
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { name, description, completed } = req.body;
+      const updatedProject = await Project.update(id, {
+        name,
+        description,
+        completed,
+      });
+      res.status(200).json(updatedProject);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 // Handle Errors When Needed
 router.use(handleError);
