@@ -2,12 +2,14 @@
 const express = require("express");
 const server = express();
 const projectsRouter = require("./projects/projects-router");
+const actionsRouter = require("./actions/actions-router");
 const { logger } = require("./general-middleware");
 
 // Middleware
 server.use(express.json());
 server.use(logger);
 server.use("/api/projects", projectsRouter);
+server.use("/api/actions", actionsRouter);
 
 // Default response
 server.get("/", (req, res) => {

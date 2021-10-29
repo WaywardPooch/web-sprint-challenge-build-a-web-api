@@ -23,8 +23,8 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", validateProjectId, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const project = await Project.get(id);
-    res.status(200).json(project);
+    const targetProject = await Project.get(id);
+    res.status(200).json(targetProject);
   } catch (err) {
     next(err);
   }
@@ -66,6 +66,15 @@ router.delete("/:id", validateProjectId, async (req, res, next) => {
     const { id } = req.params;
     await Project.remove(id);
     res.end(); // shoots back a response with no payload
+  } catch (err) {
+    next(err);
+  }
+});
+router.get("/:id/actions", validateProjectId, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const targetProject = await Project.get(id);
+    res.status(200).json(targetProject.actions);
   } catch (err) {
     next(err);
   }
