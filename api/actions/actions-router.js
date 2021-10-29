@@ -13,7 +13,15 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 });
-router.get("/:id", async (req, res, next) => {});
+router.get("/:id", validateActionId, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const targetAction = await Action.get(id);
+    res.status(200).json(targetAction);
+  } catch (err) {
+    next(err);
+  }
+});
 router.post("/", async (req, res, next) => {});
 router.put("/:id", async (req, res, next) => {});
 router.delete("/:id", async (req, res, next) => {});
