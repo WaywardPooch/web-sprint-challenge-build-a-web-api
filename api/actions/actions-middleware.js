@@ -13,5 +13,27 @@ const validateActionId = async (req, res, next) => {
     next(err);
   }
 };
+const validateNewAction = (req, res, next) => {
+  try {
+    const { project_id, description, notes, completed = false } = req.body;
+    if (project_id && description && notes) {
+      if (typeof completed === "boolean") {
+        next();
+      } else {
+        res
+          .status(400)
+          .json({ message: "The value of 'completed' must be a boolean" });
+      }
+    } else {
+      res
+        .status(400)
+        .json({
+          message: "New actions require project_id, description, and notes",
+        });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
 
-module.exports = { validateActionId };
+module.exports = { validateActionId, validateNewAction };

@@ -1,6 +1,6 @@
 const express = require("express");
 const Action = require("./actions-model");
-const { validateActionId } = require("./actions-middleware");
+const { validateActionId, validateNewAction } = require("./actions-middleware");
 const { handleError } = require("./../general-middleware");
 
 const router = express.Router();
@@ -22,7 +22,20 @@ router.get("/:id", validateActionId, async (req, res, next) => {
     next(err);
   }
 });
-router.post("/", async (req, res, next) => {});
+router.post("/", validateNewAction, async (req, res, next) => {
+  try {
+    const { project_id, description, notes, completed = false } = req.body;
+    const newAction = await Action.insert({
+      project_id,
+      description,
+      notes,
+      completed,
+    });
+    res.status(201).json(newAction);
+  } catch (err) {
+    next(err);
+  }
+});
 router.put("/:id", async (req, res, next) => {});
 router.delete("/:id", async (req, res, next) => {});
 
