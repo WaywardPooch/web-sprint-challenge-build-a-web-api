@@ -28,13 +28,8 @@ router.get("/:id", validateActionId, async (req, res, next) => {
 });
 router.post("/", validateNewAction, async (req, res, next) => {
   try {
-    const { project_id, description, notes, completed = false } = req.body;
-    const newAction = await Action.insert({
-      project_id,
-      description,
-      notes,
-      completed,
-    });
+    const { completed = false } = req.body;
+    const newAction = await Action.insert({ ...req.body, completed });
     res.status(201).json(newAction);
   } catch (err) {
     next(err);
@@ -54,7 +49,15 @@ router.put(
     }
   }
 );
-router.delete("/:id", async (req, res, next) => {});
+router.delete("/:id", validateActionId, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await Action.remove(id);
+    res.end();
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.use(handleError);
 module.exports = router;
