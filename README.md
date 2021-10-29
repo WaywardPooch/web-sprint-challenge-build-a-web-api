@@ -147,7 +147,28 @@ We have provided test data for all the resources.
 Be prepared to demonstrate your understanding of this week's concepts by answering questions on the following topics. You might prepare by writing down your own answers before hand.
 
 1. The core features of Node.js and Express and why they are useful.
+
+   Node.js lets us run server-side JavaScript. Express lets us easily implement RESTful APIs. Together, it's not so bad to set up clean endpoints and attach middleware to our backend programs.
+
 1. Understand and explain the use of Middleware.
+
+   Middleware is like a processing layer in-between the front end and the back end. It can do many things, such as routing, sanitizing data, and validating incoming requests. Processes that are repeated between different endpoints can be made into middleware to make our code more dry.
+
 1. The basic principles of the REST architectural style.
+
+   REST is a standard that most servers follow that groups requests into four categories:
+
+   - GET: Reading data
+   - POST: Adding data
+   - DELETE: Removing data
+   - PUT: Editing data
+
+   By having most servers follow this pattern, it makes data transfer simple and structured.
+
 1. Understand and explain the use of Express Routers.
+
+   Express Routers are middleware we can write to group specific traffic to various endpoints. They help us organize our endpoints into separate files based on common URL paths to improve readability of our API source code.
+
 1. Describe tooling used to manually test the correctness of an API.
+
+   Two popular options for manually testing APIs are Postman and HTTPie. Postman provides its users with a graphical user interface, while HTTPie takes the form of a command line interface. They both serve the same purpose, but depending on how complex or simple your request is, one tool may be used more quickly than the other.
