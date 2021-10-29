@@ -25,15 +25,34 @@ const validateNewAction = (req, res, next) => {
           .json({ message: "The value of 'completed' must be a boolean" });
       }
     } else {
-      res
-        .status(400)
-        .json({
-          message: "New actions require project_id, description, and notes",
-        });
+      res.status(400).json({
+        message: "New actions require project_id, description, and notes",
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+const validateUpdatedAction = (req, res, next) => {
+  try {
+    const { project_id, description, notes, completed } = req.body;
+    if (project_id && description && notes) {
+      if (typeof completed === "boolean") {
+        next();
+      } else {
+        res
+          .status(400)
+          .json({ message: "The value of 'completed' must be a boolean" });
+      }
+    } else {
+      res.status(400).json({
+        message:
+          "Action updates require project_id, description, notes, and a completed status",
+      });
     }
   } catch (err) {
     next(err);
   }
 };
 
-module.exports = { validateActionId, validateNewAction };
+module.exports = { validateActionId, validateNewAction, validateUpdatedAction };
