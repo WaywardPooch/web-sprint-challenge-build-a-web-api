@@ -1,16 +1,18 @@
+// Imports
 const express = require("express");
 const server = express();
 const projectsRouter = require("./projects/projects-router");
+const { logger } = require("./general-middleware");
 
-// Configure your server here
+// Middleware
 server.use(express.json());
-// Build your projects router in /api/projects/projects-router.js
+server.use(logger);
 server.use("/api/projects", projectsRouter);
-// Build your actions router in /api/actions/actions-router.js
 
-// Do NOT `server.listen()` inside this file!
+// Default response
 server.get("/", (req, res) => {
   res.send(`<h3>Hey! You made it!</h3>`);
 });
 
+// Exports
 module.exports = server;

@@ -1,11 +1,8 @@
 // Imports
 const express = require("express");
 const Project = require("./projects-model");
-const {
-  handleError,
-  validateProjectId,
-  validateProject,
-} = require("./projects-middleware");
+const { validateProjectId, validateProject } = require("./projects-middleware");
+const { handleError } = require("./../general-middleware");
 
 // Router Declaration
 const router = express.Router();

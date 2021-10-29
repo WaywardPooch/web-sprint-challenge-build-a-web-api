@@ -1,12 +1,5 @@
 const Project = require("./projects-model");
 
-// eslint-disable-next-line no-unused-vars
-const handleError = (err, req, res, next) => {
-  res.status(err.status || 500).json({
-    message: err.message,
-  });
-};
-
 const validateProjectId = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -36,4 +29,4 @@ const validateProject = async (req, res, next) => {
   }
 };
 
-module.exports = { handleError, validateProjectId, validateProject };
+module.exports = { validateProjectId, validateProject };
