@@ -31,7 +31,7 @@ const validateNewProject = async (req, res, next) => {
 const validateUpdatedProject = async (req, res, next) => {
   try {
     const { name, description, completed } = req.body;
-    if (name && description && completed !== undefined) {
+    if (name && description && typeof completed === "boolean") {
       next();
     } else {
       next({

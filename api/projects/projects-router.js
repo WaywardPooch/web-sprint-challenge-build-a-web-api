@@ -61,6 +61,15 @@ router.put(
     }
   }
 );
+router.delete("/:id", validateProjectId, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await Project.remove(id);
+    res.end(); // shoots back a response with no payload
+  } catch (err) {
+    next(err);
+  }
+});
 
 // Handle Errors When Needed
 router.use(handleError);
