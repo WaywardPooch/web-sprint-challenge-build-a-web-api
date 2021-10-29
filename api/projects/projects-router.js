@@ -1,7 +1,7 @@
 // Imports
 const express = require("express");
 const Project = require("./projects-model");
-const { handleError } = require("./projects-middleware");
+const { handleError, validateProjectId } = require("./projects-middleware");
 
 // Router Declaration
 const router = express.Router();
@@ -11,6 +11,15 @@ router.get("/", async (req, res, next) => {
   try {
     const projects = await Project.get();
     res.status(200).json(projects);
+  } catch (err) {
+    next(err);
+  }
+});
+router.get("/:id", validateProjectId, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const project = await Project.get(id);
+    res.status(200).json(project);
   } catch (err) {
     next(err);
   }
